@@ -35,6 +35,8 @@ const GAMES = [
   { image: '/games/forza-horizon-6.jpg', text: 'Forza Horizon 6' },
   { image: '/games/sea-of-thieves.jpg', text: 'Sea of Thieves' },
   { image: '/games/star-citizen.png', text: 'Star Citizen' },
+  { image: '/games/phasmophobia.jpg', text: 'Phasmophobia' },
+  { image: '/games/cyberpunk-2077.jpg', text: 'Cyberpunk 2077' },
 ];
 
 // 🌐 Traductions FR / EN
