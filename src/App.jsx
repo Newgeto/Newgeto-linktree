@@ -20,8 +20,8 @@ const PROFILE = {
 const MUSIC_URL = '';
 
 const LINKS = [
-  { label: 'GitHub', url: 'https://github.com/Newgeto', icon: 'github', accent: '#ffffff' },
-  { label: 'Portfolio', url: 'https://newgeto.github.io/Portfolio/', icon: 'portfolio', accent: '#FF9FFC' },
+  { label: 'GitHub', url: 'https://github.com/Aziz-Anakin', icon: 'github', accent: '#ffffff' },
+  { label: 'Portfolio', url: 'https://aziz-anakin.github.io/Portfolio/', icon: 'portfolio', accent: '#FF9FFC' },
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/yanis-mdoughy-558a1028b', icon: 'linkedin', accent: '#0A66C2' },
   { label: 'Email', url: 'mailto:yanis.mdoughy@outlook.fr', icon: 'email', accent: '#34D399' },
 ];
