@@ -51,3 +51,9 @@
     100% 100%,
     0 0;
 }
+
+@media (hover: none) {
+  .glare-hover::before {
+    display: none;
+  }
+}
