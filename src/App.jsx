@@ -44,6 +44,13 @@ const LINKS = [
     icon: 'discord',
     accent: '#5865F2',
   },
+  {
+    label: 'Email',
+    sublabel: 'yanis.mdoughy@outlook.fr',
+    url: 'mailto:yanis.mdoughy@outlook.fr',
+    icon: 'email',
+    accent: '#34D399',
+  },
 ];
 /* ------------------------------------------------------------------ */
 
@@ -73,6 +80,13 @@ const Icon = ({ name, className }) => {
           <rect x="2" y="7" width="20" height="14" rx="2" />
           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
           <path d="M2 13h20" />
+        </svg>
+      );
+    case 'email':
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m2 6 10 7L22 6" />
         </svg>
       );
     default:
@@ -133,13 +147,18 @@ function LinkCard({ link, index }) {
       className="absolute inset-0 z-20 cursor-pointer"
     />
   ) : (
-    <a
-      href={link.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={link.label}
-      className="absolute inset-0 z-20"
-    />
+    (() => {
+      const isExternal = !link.url.startsWith('mailto:');
+      return (
+        <a
+          href={link.url}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+          aria-label={link.label}
+          className="absolute inset-0 z-20"
+        />
+      );
+    })()
   );
 
   return (
@@ -195,7 +214,7 @@ export default function App() {
         <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
 
         {/* Contenu */}
-        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 py-6 sm:py-16">
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 py-5 sm:py-16">
           <section className="w-full max-w-md">
             {/* En-tête / profil */}
             <header className="flex flex-col items-center text-center">
@@ -232,14 +251,14 @@ export default function App() {
             </header>
 
             {/* Liens */}
-            <nav className="mt-6 flex flex-col gap-2.5 sm:mt-10 sm:gap-3.5">
+            <nav className="mt-5 flex flex-col gap-2 sm:mt-10 sm:gap-3.5">
               {LINKS.map((link, index) => (
                 <LinkCard key={link.label} link={link} index={index} />
               ))}
             </nav>
 
             {/* Footer */}
-            <footer className="fade-up mt-6 text-center sm:mt-10" style={{ animationDelay: '0.55s' }}>
+            <footer className="fade-up mt-5 text-center sm:mt-10" style={{ animationDelay: '0.63s' }}>
               <p className="text-[11px] text-white/30 sm:text-xs">
                 © {new Date().getFullYear()} {PROFILE.name} — Tous droits réservés
               </p>
