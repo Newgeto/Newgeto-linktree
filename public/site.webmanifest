@@ -1,7 +1,7 @@
 {
-  "name": "Newgeto — Links",
-  "short_name": "Newgeto",
-  "description": "Tous les liens de Newgeto : GitHub, portfolio, LinkedIn et Discord.",
+  "name": "Aziz Anakin — Links",
+  "short_name": "Aziz Anakin",
+  "description": "Tous les liens d'Aziz Anakin : GitHub, portfolio, LinkedIn et Discord.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#05060a",

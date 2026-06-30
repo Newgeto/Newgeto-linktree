@@ -1,4 +1,4 @@
-# Newgeto — Linktree
+# Aziz Anakin — Linktree
 
 Page de liens personnelle, sobre et animée : GitHub, Portfolio, LinkedIn et Discord.
 

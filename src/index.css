@@ -20,6 +20,13 @@ body {
   background-color: #05060a;
   font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+
+  /* Empêche la sélection et le copier-coller du texte de la page */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* Apparition en fondu vers le haut (entrée des éléments) */
@@ -73,6 +80,20 @@ body {
 
 .link-glare {
   width: 100%;
+}
+
+/* --- Apparition de la fenêtre galerie de jeux --- */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-fade {
+  animation: modalFade 0.25s ease forwards;
 }
 
 /* --- Égaliseur du lecteur de musique --- */
