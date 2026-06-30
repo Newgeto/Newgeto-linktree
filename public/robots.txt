@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://newgeto.github.io/Newgeto/sitemap.xml
+Sitemap: https://newgeto.vercel.app/sitemap.xml
