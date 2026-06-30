@@ -45,3 +45,53 @@ body {
     animation: none;
   }
 }
+
+/* --- Carte de lien : neutralise le style par défaut de StarBorder --- */
+.link-star {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.link-star .inner-content {
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: inherit;
+  font-size: inherit;
+  text-align: left;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.link-star:hover .inner-content {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.link-glare {
+  width: 100%;
+}
+
+/* --- Égaliseur du lecteur de musique --- */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.eq-bar {
+  display: block;
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite;
+}
