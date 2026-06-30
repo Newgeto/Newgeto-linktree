@@ -1,0 +1,17 @@
+{
+  "name": "Newgeto — Links",
+  "short_name": "Newgeto",
+  "description": "Tous les liens de Newgeto : GitHub, portfolio, LinkedIn et Discord.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05060a",
+  "theme_color": "#5227FF",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

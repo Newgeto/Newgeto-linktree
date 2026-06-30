@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://newgeto.github.io/Newgeto/sitemap.xml
