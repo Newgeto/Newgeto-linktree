@@ -23,34 +23,18 @@ const LINKS = [
   { label: 'Email', url: 'mailto:yanis.mdoughy@outlook.fr', icon: 'email', accent: '#34D399' },
 ];
 
-// 🌐 Traductions FR / EN
+// 🌐 Textes (français)
 const STRINGS = {
-  fr: {
-    bio: "Passionné par l'informatique et les jeux vidéo",
-    rights: 'Tous droits réservés',
-    sub: {
-      GitHub: 'Mes projets & code source',
-      Portfolio: 'Découvre mon travail',
-      LinkedIn: 'Mon parcours professionnel',
-      Steam: 'Mon profil & mes jeux',
-      Email: 'yanis.mdoughy@outlook.fr',
-    },
-    copied: 'Copié !',
-    langAria: 'Switch to English',
+  bio: "Passionné par l'informatique et les jeux vidéo",
+  rights: 'Tous droits réservés',
+  sub: {
+    GitHub: 'Mes projets & code source',
+    Portfolio: 'Découvre mon travail',
+    LinkedIn: 'Mon parcours professionnel',
+    Steam: 'Mon profil & mes jeux',
+    Email: 'yanis.mdoughy@outlook.fr',
   },
-  en: {
-    bio: 'Passionate about IT & video games',
-    rights: 'All rights reserved',
-    sub: {
-      GitHub: 'My projects & source code',
-      Portfolio: 'Check out my work',
-      LinkedIn: 'My professional journey',
-      Steam: 'My profile & games',
-      Email: 'yanis.mdoughy@outlook.fr',
-    },
-    copied: 'Copied!',
-    langAria: 'Passer en français',
-  },
+  copied: 'Copié !',
 };
 /* ------------------------------------------------------------------ */
 
@@ -110,27 +94,6 @@ const CopyIcon = () => (
 const CheckIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
     <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
-
-const FlagFR = ({ className }) => (
-  <svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" className={className} aria-hidden="true">
-    <rect width="3" height="2" fill="#fff" />
-    <rect width="1" height="2" fill="#0055A4" />
-    <rect x="2" width="1" height="2" fill="#EF4135" />
-  </svg>
-);
-
-const FlagGB = ({ className }) => (
-  <svg viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" className={className} aria-hidden="true">
-    <clipPath id="gb-clip">
-      <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
-    </clipPath>
-    <path d="M0,0 v30 h60 v-30 z" fill="#012169" />
-    <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6" />
-    <path d="M0,0 L60,30 M60,0 L0,30" clipPath="url(#gb-clip)" stroke="#C8102E" strokeWidth="4" />
-    <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10" />
-    <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6" />
   </svg>
 );
 
@@ -234,8 +197,7 @@ function LinkCard({ link, sublabel, index, copiedLabel }) {
 }
 
 export default function App() {
-  const [lang, setLang] = useState('fr');
-  const t = STRINGS[lang];
+  const t = STRINGS;
 
   // Bloque le copier-coller et le menu contextuel sur toute la page
   useEffect(() => {
@@ -272,19 +234,6 @@ export default function App() {
         <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.55)_0%,rgba(5,6,10,0.25)_45%,rgba(5,6,10,0.8)_100%)]" />
         <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
 
-        {/* Sélecteur de langue (FR / EN) */}
-        <div className="fixed right-3 top-3 z-30 flex items-center gap-2 sm:right-5 sm:top-5">
-          <button
-            type="button"
-            onClick={() => setLang((l) => (l === 'fr' ? 'en' : 'fr'))}
-            aria-label={t.langAria}
-            title={t.langAria}
-            className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/[0.05] backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-white/30"
-          >
-            {lang === 'fr' ? <FlagGB className="h-full w-full" /> : <FlagFR className="h-full w-full" />}
-          </button>
-        </div>
-
         {/* Contenu */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 py-5 sm:py-16">
           <section className="w-full max-w-md">
@@ -317,8 +266,8 @@ export default function App() {
                 </GradientText>
               </div>
 
-              <p className="fade-up mt-2 max-w-xs text-[13px] leading-relaxed sm:mt-3 sm:text-sm" style={{ animationDelay: '0.12s' }}>
-                <ShinyText text={t.bio} speed={4} color="#a8a2c4" shineColor="#ffffff" />
+              <p className="fade-up mt-2 max-w-sm text-base font-bold leading-relaxed sm:mt-3 sm:text-lg" style={{ animationDelay: '0.12s' }}>
+                <ShinyText className="font-bold" text={t.bio} speed={4} color="#a8a2c4" shineColor="#ffffff" />
               </p>
             </header>
 
