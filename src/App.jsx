@@ -38,13 +38,6 @@ const LINKS = [
     accent: '#0A66C2',
   },
   {
-    label: 'Discord',
-    sublabel: 'Aziz_Anakin — clique pour copier',
-    copy: 'Aziz_Anakin',
-    icon: 'discord',
-    accent: '#5865F2',
-  },
-  {
     label: 'Email',
     sublabel: 'yanis.mdoughy@outlook.fr',
     url: 'mailto:yanis.mdoughy@outlook.fr',
