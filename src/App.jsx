@@ -150,14 +150,14 @@ function LinkCard({ link, index }) {
       >
         {cover}
 
-        <div className="relative z-10 flex items-center gap-4 px-4 py-3.5">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center text-white">
-            <Icon name={link.icon} className="h-6 w-6" />
+        <div className="relative z-10 flex items-center gap-3 px-4 py-3 sm:gap-4 sm:py-3.5">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-11 sm:w-11">
+            <Icon name={link.icon} className="h-5 w-5 sm:h-6 sm:w-6" />
           </span>
 
           <span className="flex-1 min-w-0 text-left">
             <span className="block text-sm font-semibold text-white">{link.label}</span>
-            <span className="block truncate text-xs text-white/45">
+            <span className="block truncate text-[11px] text-white/45 sm:text-xs">
               {copied ? 'Copié dans le presse-papier ✓' : link.sublabel}
             </span>
           </span>
@@ -195,7 +195,7 @@ export default function App() {
         <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
 
         {/* Contenu */}
-        <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-5 py-16">
+        <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 py-6 sm:py-16">
           <section className="w-full max-w-md">
             {/* En-tête / profil */}
             <header className="flex flex-col items-center text-center">
@@ -205,10 +205,10 @@ export default function App() {
                   <img
                     src={PROFILE.avatar}
                     alt={PROFILE.name}
-                    className="relative h-32 w-32 rounded-full object-cover ring-2 ring-white/20"
+                    className="relative h-24 w-24 rounded-full object-cover ring-2 ring-white/20 sm:h-32 sm:w-32"
                   />
                 ) : (
-                  <div className="relative flex h-32 w-32 items-center justify-center rounded-full bg-white/5 text-3xl font-semibold text-white ring-2 ring-white/20 backdrop-blur-sm">
+                  <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-white/5 text-2xl font-semibold text-white ring-2 ring-white/20 backdrop-blur-sm sm:h-32 sm:w-32 sm:text-3xl">
                     {initials(PROFILE.name)}
                   </div>
                 )}
@@ -216,9 +216,9 @@ export default function App() {
 
               {/* h1 caché pour le SEO + nom animé (GradientText - React Bits) */}
               <h1 className="sr-only">{PROFILE.name}</h1>
-              <div className="fade-up mt-5" style={{ animationDelay: '0.07s' }} aria-hidden="true">
+              <div className="fade-up mt-4 sm:mt-5" style={{ animationDelay: '0.07s' }} aria-hidden="true">
                 <GradientText
-                  className="font-display text-4xl font-bold tracking-tight"
+                  className="font-display text-3xl font-bold tracking-tight sm:text-4xl"
                   colors={['#5227FF', '#FF9FFC', '#B497CF', '#5227FF']}
                   animationSpeed={7}
                 >
@@ -226,21 +226,21 @@ export default function App() {
                 </GradientText>
               </div>
 
-              <p className="fade-up mt-3 max-w-xs text-sm leading-relaxed" style={{ animationDelay: '0.12s' }}>
+              <p className="fade-up mt-2 max-w-xs text-[13px] leading-relaxed sm:mt-3 sm:text-sm" style={{ animationDelay: '0.12s' }}>
                 <ShinyText text={PROFILE.bio} speed={4} color="#a8a2c4" shineColor="#ffffff" />
               </p>
             </header>
 
             {/* Liens */}
-            <nav className="mt-10 flex flex-col gap-3.5">
+            <nav className="mt-6 flex flex-col gap-2.5 sm:mt-10 sm:gap-3.5">
               {LINKS.map((link, index) => (
                 <LinkCard key={link.label} link={link} index={index} />
               ))}
             </nav>
 
             {/* Footer */}
-            <footer className="fade-up mt-12 text-center" style={{ animationDelay: '0.55s' }}>
-              <p className="text-xs text-white/30">
+            <footer className="fade-up mt-6 text-center sm:mt-10" style={{ animationDelay: '0.55s' }}>
+              <p className="text-[11px] text-white/30 sm:text-xs">
                 © {new Date().getFullYear()} {PROFILE.name} — Tous droits réservés
               </p>
             </footer>
