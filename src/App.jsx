@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import LightPillar from './components/LightPillar.jsx';
 import GradientText from './components/GradientText.jsx';
 import ShinyText from './components/ShinyText.jsx';
 import ClickSpark from './components/ClickSpark.jsx';
 import Magnet from './components/Magnet.jsx';
 import GlareHover from './components/GlareHover.jsx';
-import CircularGallery from './components/CircularGallery.jsx';
 
 /* ------------------------------------------------------------------ */
-/*  👉  MODIFIE ICI : tes infos, ta musique et tes liens              */
+/*  👉  MODIFIE ICI : tes infos et tes liens                          */
 /* ------------------------------------------------------------------ */
 const PROFILE = {
   name: 'Aziz Anakin',
@@ -16,27 +15,12 @@ const PROFILE = {
   avatar: 'https://avatars.githubusercontent.com/u/134959102?v=4',
 };
 
-// 🎵 Colle ici le lien YouTube de ta musique (laisse '' pour désactiver le lecteur)
-const MUSIC_URL = '';
-
 const LINKS = [
   { label: 'GitHub', url: 'https://github.com/Aziz-Anakin', icon: 'github', accent: '#ffffff' },
   { label: 'Portfolio', url: 'https://aziz-anakin.github.io/Portfolio/', icon: 'portfolio', accent: '#FF9FFC' },
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/yanis-mdoughy-558a1028b', icon: 'linkedin', accent: '#0A66C2' },
+  { label: 'Steam', url: 'https://steamcommunity.com/id/Aziz-anakin/', icon: 'steam', accent: '#66C0F4' },
   { label: 'Email', url: 'mailto:yanis.mdoughy@outlook.fr', icon: 'email', accent: '#34D399' },
-];
-
-// 🎮 Mes jeux préférés — pochettes dans public/games/ (ajoute/retire librement)
-const GAMES = [
-  { image: '/games/gta-5.png', text: 'GTA V' },
-  { image: '/games/minecraft.jpg', text: 'Minecraft' },
-  { image: '/games/spider-man-2.jpg', text: 'Spider-Man 2' },
-  { image: '/games/batman-arkham-knight.jpg', text: 'Arkham Knight' },
-  { image: '/games/forza-horizon-6.jpg', text: 'Forza Horizon 6' },
-  { image: '/games/sea-of-thieves.jpg', text: 'Sea of Thieves' },
-  { image: '/games/star-citizen.png', text: 'Star Citizen' },
-  { image: '/games/phasmophobia.jpg', text: 'Phasmophobia' },
-  { image: '/games/cyberpunk-2077.jpg', text: 'Cyberpunk 2077' },
 ];
 
 // 🌐 Traductions FR / EN
@@ -48,17 +32,11 @@ const STRINGS = {
       GitHub: 'Mes projets & code source',
       Portfolio: 'Découvre mon travail',
       LinkedIn: 'Mon parcours professionnel',
+      Steam: 'Mon profil & mes jeux',
       Email: 'yanis.mdoughy@outlook.fr',
     },
-    musicOn: 'Couper la musique',
-    musicOff: 'Lancer la musique',
-    musicNone: 'Ajoute ta musique dans le code',
-    langLabel: 'EN',
+    copied: 'Copié !',
     langAria: 'Switch to English',
-    gamesAria: 'Voir mes jeux vidéo préférés',
-    gamesTitle: 'Mes jeux préférés',
-    gamesHint: 'Glisse ou scrolle pour parcourir',
-    close: 'Fermer',
   },
   en: {
     bio: 'Passionate about IT & video games',
@@ -67,17 +45,11 @@ const STRINGS = {
       GitHub: 'My projects & source code',
       Portfolio: 'Check out my work',
       LinkedIn: 'My professional journey',
+      Steam: 'My profile & games',
       Email: 'yanis.mdoughy@outlook.fr',
     },
-    musicOn: 'Mute music',
-    musicOff: 'Play music',
-    musicNone: 'Add your music in the code',
-    langLabel: 'FR',
+    copied: 'Copied!',
     langAria: 'Passer en français',
-    gamesAria: 'See my favorite video games',
-    gamesTitle: 'My favorite games',
-    gamesHint: 'Drag or scroll to browse',
-    close: 'Close',
   },
 };
 /* ------------------------------------------------------------------ */
@@ -111,6 +83,12 @@ const Icon = ({ name, className }) => {
           <path d="m2 6 10 7L22 6" />
         </svg>
       );
+    case 'steam':
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+          <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z" />
+        </svg>
+      );
     default:
       return null;
   }
@@ -122,36 +100,18 @@ const ArrowIcon = () => (
   </svg>
 );
 
-const GamepadIcon = ({ className }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <line x1="6" y1="11" x2="10" y2="11" />
-    <line x1="8" y1="9" x2="8" y2="13" />
-    <line x1="15" y1="12" x2="15.01" y2="12" />
-    <line x1="18" y1="10" x2="18.01" y2="10" />
-    <path d="M17.32 5H6.68a4 4 0 0 0-3.98 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" />
+const CopyIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+    <rect x="9" y="9" width="13" height="13" rx="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
   </svg>
 );
 
-const CloseIcon = ({ className }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M18 6 6 18M6 6l12 12" />
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
+    <path d="M20 6 9 17l-5-5" />
   </svg>
 );
-
-const MusicIcon = ({ on }) =>
-  on ? (
-    <span className="flex h-4 items-end gap-[2px]" aria-hidden="true">
-      <span className="eq-bar" style={{ animationDelay: '0ms' }} />
-      <span className="eq-bar" style={{ animationDelay: '150ms' }} />
-      <span className="eq-bar" style={{ animationDelay: '300ms' }} />
-    </span>
-  ) : (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
-      <path d="M11 5 6 9H2v6h4l5 4V5z" />
-      <line x1="22" y1="9" x2="16" y2="15" />
-      <line x1="16" y1="9" x2="22" y2="15" />
-    </svg>
-  );
 
 const FlagFR = ({ className }) => (
   <svg viewBox="0 0 3 2" preserveAspectRatio="xMidYMid slice" className={className} aria-hidden="true">
@@ -182,53 +142,24 @@ const initials = (name) =>
     .slice(0, 2)
     .toUpperCase();
 
-function getYouTubeId(url) {
-  if (!url) return '';
-  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/))([\w-]{11})/);
-  return m ? m[1] : '';
-}
+function LinkCard({ link, sublabel, index, copiedLabel }) {
+  const isCopy = Boolean(link.copyText);
+  const isExternal = !isCopy && link.url && !link.url.startsWith('mailto:');
+  const [copied, setCopied] = useState(false);
+  const timer = useRef(null);
 
-function MusicToggle({ t }) {
-  const [on, setOn] = useState(false);
-  const id = getYouTubeId(MUSIC_URL);
-  const disabled = !id;
+  useEffect(() => () => clearTimeout(timer.current), []);
 
-  const title = disabled ? t.musicNone : on ? t.musicOn : t.musicOff;
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => !disabled && setOn((o) => !o)}
-        disabled={disabled}
-        aria-label={title}
-        title={title}
-        className={`flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 ${
-          disabled
-            ? 'cursor-not-allowed border-white/10 bg-white/[0.03] text-white/30'
-            : on
-              ? 'border-[#FF9FFC]/60 bg-[#FF9FFC]/15 text-[#FF9FFC] shadow-[0_0_18px_rgba(255,159,252,0.45)]'
-              : 'border-white/10 bg-white/[0.05] text-white/70 hover:border-white/25 hover:text-white'
-        }`}
-      >
-        <MusicIcon on={on} />
-      </button>
-
-      {on && id && (
-        <iframe
-          title="Lecteur de musique"
-          src={`https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}&controls=0&modestbranding=1&playsinline=1`}
-          allow="autoplay"
-          className="pointer-events-none fixed bottom-0 left-0 h-px w-px opacity-0"
-          tabIndex={-1}
-        />
-      )}
-    </>
-  );
-}
-
-function LinkCard({ link, sublabel, index }) {
-  const isExternal = !link.url.startsWith('mailto:');
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(link.copyText);
+    } catch {
+      // Presse-papiers indisponible — on affiche quand même le retour visuel.
+    }
+    setCopied(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(false), 1600);
+  };
 
   return (
     <Magnet
@@ -253,14 +184,23 @@ function LinkCard({ link, sublabel, index }) {
             transitionDuration={750}
             className="link-glare"
           >
-            {/* Lien plein cadre (gère le clic) */}
-            <a
-              href={link.url}
-              target={isExternal ? '_blank' : undefined}
-              rel={isExternal ? 'noopener noreferrer' : undefined}
-              aria-label={link.label}
-              className="absolute inset-0 z-20"
-            />
+            {/* Élément plein cadre qui gère le clic (lien ou copie) */}
+            {isCopy ? (
+              <button
+                type="button"
+                onClick={handleCopy}
+                aria-label={`${link.label} — ${copiedLabel}`}
+                className="absolute inset-0 z-20 cursor-pointer"
+              />
+            ) : (
+              <a
+                href={link.url}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+                aria-label={link.label}
+                className="absolute inset-0 z-20"
+              />
+            )}
 
             <div className="relative z-10 flex w-full items-center gap-3 px-4 py-3 sm:gap-4 sm:py-3.5">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-11 sm:w-11">
@@ -269,11 +209,21 @@ function LinkCard({ link, sublabel, index }) {
 
               <span className="min-w-0 flex-1 text-left">
                 <span className="block text-sm font-semibold text-white">{link.label}</span>
-                <span className="block truncate text-[11px] text-white/45 sm:text-xs">{sublabel}</span>
+                <span
+                  className={`block truncate text-[11px] sm:text-xs ${
+                    isCopy && copied ? 'text-[#34D399]' : 'text-white/45'
+                  }`}
+                >
+                  {isCopy && copied ? copiedLabel : sublabel}
+                </span>
               </span>
 
-              <span className="text-white/40 transition-colors duration-300 group-hover:text-white">
-                <ArrowIcon />
+              <span
+                className={`transition-colors duration-300 group-hover:text-white ${
+                  isCopy && copied ? 'text-[#34D399]' : 'text-white/40'
+                }`}
+              >
+                {isCopy ? copied ? <CheckIcon /> : <CopyIcon /> : <ArrowIcon />}
               </span>
             </div>
           </GlareHover>
@@ -285,7 +235,6 @@ function LinkCard({ link, sublabel, index }) {
 
 export default function App() {
   const [lang, setLang] = useState('fr');
-  const [gamesOpen, setGamesOpen] = useState(false);
   const t = STRINGS[lang];
 
   // Bloque le copier-coller et le menu contextuel sur toute la page
@@ -300,14 +249,6 @@ export default function App() {
       document.removeEventListener('contextmenu', prevent);
     };
   }, []);
-
-  // Ferme la galerie de jeux avec la touche Échap
-  useEffect(() => {
-    if (!gamesOpen) return;
-    const onKey = (e) => e.key === 'Escape' && setGamesOpen(false);
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [gamesOpen]);
 
   return (
     <ClickSpark sparkColor="#FF9FFC" sparkSize={9} sparkRadius={18} sparkCount={9} duration={500}>
@@ -331,18 +272,8 @@ export default function App() {
         <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(5,6,10,0.55)_0%,rgba(5,6,10,0.25)_45%,rgba(5,6,10,0.8)_100%)]" />
         <div className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-black/50 via-transparent to-black/80" />
 
-        {/* Barre de contrôles (jeux + musique + langue) */}
+        {/* Sélecteur de langue (FR / EN) */}
         <div className="fixed right-3 top-3 z-30 flex items-center gap-2 sm:right-5 sm:top-5">
-          <button
-            type="button"
-            onClick={() => setGamesOpen(true)}
-            aria-label={t.gamesAria}
-            title={t.gamesAria}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-[#FF9FFC]/60 hover:text-[#FF9FFC]"
-          >
-            <GamepadIcon className="h-5 w-5" />
-          </button>
-          <MusicToggle t={t} />
           <button
             type="button"
             onClick={() => setLang((l) => (l === 'fr' ? 'en' : 'fr'))}
@@ -353,45 +284,6 @@ export default function App() {
             {lang === 'fr' ? <FlagGB className="h-full w-full" /> : <FlagFR className="h-full w-full" />}
           </button>
         </div>
-
-        {/* Galerie de jeux préférés (CircularGallery — React Bits) */}
-        {gamesOpen && (
-          <div
-            className="modal-fade fixed inset-0 z-50 flex flex-col bg-[#05060a]/85 backdrop-blur-xl"
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.gamesTitle}
-            onClick={() => setGamesOpen(false)}
-          >
-            <div className="flex items-center justify-between px-5 pt-5 sm:px-8 sm:pt-7" onClick={(e) => e.stopPropagation()}>
-              <div>
-                <h2 className="font-display text-xl font-bold text-white sm:text-2xl">{t.gamesTitle}</h2>
-                <p className="mt-0.5 text-[11px] text-white/40 sm:text-xs">{t.gamesHint}</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setGamesOpen(false)}
-                aria-label={t.close}
-                title={t.close}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.05] text-white/70 backdrop-blur-md transition-all duration-300 hover:border-white/30 hover:text-white"
-              >
-                <CloseIcon className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="relative min-h-0 flex-1" onClick={(e) => e.stopPropagation()}>
-              <CircularGallery
-                items={GAMES}
-                bend={3}
-                textColor="#ffffff"
-                borderRadius={0.05}
-                scrollEase={0.05}
-                font="bold 30px Space Grotesk"
-                fontUrl="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap"
-              />
-            </div>
-          </div>
-        )}
 
         {/* Contenu */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-5 py-5 sm:py-16">
@@ -433,7 +325,13 @@ export default function App() {
             {/* Liens */}
             <nav className="mt-5 flex flex-col gap-2 sm:mt-10 sm:gap-3.5">
               {LINKS.map((link, index) => (
-                <LinkCard key={link.label} link={link} sublabel={t.sub[link.label]} index={index} />
+                <LinkCard
+                  key={link.label}
+                  link={link}
+                  sublabel={t.sub[link.label]}
+                  index={index}
+                  copiedLabel={t.copied}
+                />
               ))}
             </nav>
           </section>

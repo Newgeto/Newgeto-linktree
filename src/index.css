@@ -81,38 +81,3 @@ body {
 .link-glare {
   width: 100%;
 }
-
-/* --- Apparition de la fenêtre galerie de jeux --- */
-@keyframes modalFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-fade {
-  animation: modalFade 0.25s ease forwards;
-}
-
-/* --- Égaliseur du lecteur de musique --- */
-@keyframes eq {
-  0%,
-  100% {
-    transform: scaleY(0.35);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.eq-bar {
-  display: block;
-  width: 3px;
-  height: 100%;
-  border-radius: 2px;
-  background: currentColor;
-  transform-origin: bottom;
-  animation: eq 0.9s ease-in-out infinite;
-}
