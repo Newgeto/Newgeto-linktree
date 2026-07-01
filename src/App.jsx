@@ -52,7 +52,7 @@ const STRINGS = {
   },
 };
 
-/* Ajoute ton fichier audio dans /public/ambient.mp3 */
+/* Ajoute ton fichier audio dans /public/ambient.mp3  */
 const AMBIENT_SRC = '/ambient.mp3';
 
 /* ------------------------------------------------------------------ */
