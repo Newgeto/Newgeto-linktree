@@ -1,13 +1,17 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-const ClickSpark = ({
-  sparkColor = '#fff',
-  sparkSize = 10,
-  sparkRadius = 15,
-  sparkCount = 8,
-  duration = 400,
-  easing = 'ease-out',
-  extraScale = 1.0,
+const isTouch =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+const ClickSparkCanvas = ({
+  sparkColor,
+  sparkSize,
+  sparkRadius,
+  sparkCount,
+  duration,
+  easing,
+  extraScale,
   children
 }) => {
   const canvasRef = useRef(null);
@@ -133,11 +137,7 @@ const ClickSpark = ({
 
   return (
     <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%'
-      }}
+      style={{ position: 'relative', width: '100%', height: '100%' }}
       onClick={handleClick}
     >
       <canvas
@@ -156,6 +156,11 @@ const ClickSpark = ({
       {children}
     </div>
   );
+};
+
+const ClickSpark = (props) => {
+  if (isTouch) return <>{props.children}</>;
+  return <ClickSparkCanvas {...props} />;
 };
 
 export default ClickSpark;

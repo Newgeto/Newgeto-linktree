@@ -22,6 +22,11 @@ const Magnet = ({
       return;
     }
 
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      setPosition({ x: 0, y: 0 });
+      return;
+    }
+
     const handleMouseMove = e => {
       if (!magnetRef.current) return;
 
