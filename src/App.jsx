@@ -272,7 +272,7 @@ export default function App() {
   };
 
   const btnBase =
-    'flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:bg-white/12 hover:text-white';
+    'flex h-9 w-9 items-center justify-center rounded-full border border-[#5227FF]/40 bg-gradient-to-br from-[#5227FF]/12 to-[#FF9FFC]/8 text-[#B497CF] backdrop-blur-md transition-all duration-300 hover:border-[#FF9FFC]/50 hover:text-white';
 
   return (
     <ClickSpark sparkColor="#FF9FFC" sparkSize={9} sparkRadius={18} sparkCount={9} duration={500}>
@@ -284,14 +284,14 @@ export default function App() {
           onClick={toggleMusic}
           title={playing ? 'Pause' : 'Ambiance'}
           aria-pressed={playing}
-          className={`${btnBase} ${playing ? 'text-[#FF9FFC] border-[#FF9FFC]/40' : 'text-white/50'}`}
+          className={`${btnBase} ${playing ? 'text-[#FF9FFC] border-[#FF9FFC]/50' : ''}`}
         >
           {playing ? <PauseIcon /> : <PlayIcon />}
         </button>
         <button
           onClick={handleShare}
           title={shared ? t.shared : 'Partager'}
-          className={`${btnBase} ${shared ? 'text-[#34D399] border-[#34D399]/30' : 'text-white/50'}`}
+          className={`${btnBase} ${shared ? 'text-[#34D399] border-[#34D399]/40' : ''}`}
         >
           {shared ? <CheckIcon /> : <ShareIcon />}
         </button>
@@ -299,7 +299,7 @@ export default function App() {
 
       {/* Haut droite : langue FR / EN */}
       <div
-        className="fixed top-4 right-4 z-30 fade-up flex overflow-hidden rounded-full border border-white/10 bg-white/5 backdrop-blur-md"
+        className="fixed top-4 right-4 z-30 fade-up flex overflow-hidden rounded-full border border-[#5227FF]/40 bg-gradient-to-r from-[#5227FF]/12 to-[#FF9FFC]/8 backdrop-blur-md"
         style={{ animationDelay: '0s' }}
       >
         {['fr', 'en'].map((l) => (
@@ -307,7 +307,7 @@ export default function App() {
             key={l}
             onClick={() => setLang(l)}
             className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${
-              lang === l ? 'bg-white/15 text-white' : 'text-white/35 hover:text-white/70'
+              lang === l ? 'bg-gradient-to-r from-[#5227FF]/45 to-[#FF9FFC]/30 text-white' : 'text-[#B497CF]/60 hover:text-[#B497CF]'
             }`}
           >
             {l}
