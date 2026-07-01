@@ -262,17 +262,13 @@ export default function App() {
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: PROFILE.name, text: t.bio, url: window.location.href });
-      } catch {}
+  const handleShare = () => {
+    if (typeof navigator.share === 'function') {
+      navigator.share({ title: PROFILE.name, text: t.bio, url: window.location.href }).catch(() => {});
       return;
     }
     // Fallback : copie dans le presse-papiers (navigateurs sans Web Share API)
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-    } catch {}
+    navigator.clipboard?.writeText(window.location.href).catch(() => {});
     setShared(true);
     clearTimeout(shareTimer.current);
     shareTimer.current = setTimeout(() => setShared(false), 1600);
