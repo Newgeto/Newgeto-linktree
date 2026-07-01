@@ -263,6 +263,13 @@ export default function App() {
   };
 
   const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: PROFILE.name, text: t.bio, url: window.location.href });
+      } catch {}
+      return;
+    }
+    // Fallback : copie dans le presse-papiers (navigateurs sans Web Share API)
     try {
       await navigator.clipboard.writeText(window.location.href);
     } catch {}
